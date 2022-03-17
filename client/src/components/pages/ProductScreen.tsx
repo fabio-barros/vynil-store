@@ -1,17 +1,8 @@
 import { FC, Fragment } from "react";
-import {
-    Row,
-    Col,
-    Image,
-    ListGroup,
-    Card,
-    Button,
-    Form,
-} from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import products from "../../products/products";
-import { ProductInterface } from "../Product";
 import { Rating } from "../Rating";
 
 interface ProductScreenProps {}
@@ -34,7 +25,6 @@ export const ProductScreen: FC = () => {
 
     return (
         <Fragment>
-            HELLO
             <Link className="btn btn-light  my-3" to="/">
                 Voltar
             </Link>

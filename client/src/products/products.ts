@@ -22,7 +22,7 @@ const products = [
         albumName: "Nashville Skyline",
         releaseDate: 1969,
         producers: "pd",
-        albumCover: "images/NASHVILLESKYLINE.jpg",
+        albumCover: "images/NASHVILLE_SKYLINE.jpg",
         description: `Lorem rizzle dolizzle sit amizzle, daahng dawg adipiscing i saw beyonces tizzles and my pizzle went crizzle. Nullizzle sapien velit, bow wow wow volutpizzle, suscipit quis, gravida vel, fo shizzle. `,
         genres: `Country`,
         price: 0.0,
