@@ -2,7 +2,8 @@ import { FC } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-interface ProductInterface {
+export interface ProductInterface {
+    id: string;
     artistName: string;
     albumName: string;
     releaseDate: number;
@@ -16,12 +17,13 @@ interface ProductInterface {
     numReviews: number;
 }
 
-interface ProductProps {
+export interface ProductProps {
     product: ProductInterface;
 }
 
 export const Product: FC<ProductProps> = ({ product }) => {
     const {
+        id,
         albumCover,
         artistName,
         albumName,
@@ -32,11 +34,11 @@ export const Product: FC<ProductProps> = ({ product }) => {
     } = product;
     return (
         <Card className="my-2 border-0">
-            <Link to={`/product/${albumName}`}>
+            <Link to={`/product/${id}`}>
                 <Card.Img src={albumCover} variant="top"></Card.Img>
             </Link>
             <Card.Body className="p-2">
-                <Link to={`/${albumName}`}>
+                <Link to={`/product/${id}`}>
                     <Card.Title as="div">
                         <strong>{`${artistName} - ${albumName}`}</strong>
                     </Card.Title>

@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import { Home } from "../components/pages/Home";
+import { ProductScreen } from "../components/pages/ProductScreen";
 // import { Home } from "../components/pages/Home";
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
             <Routes>
                 hello
                 <Route path="/" element={<Home />} />
-                {/* <Route path="about" element={<About />} /> */}
+                <Route path="/product/:id" element={<ProductScreen />} />
             </Routes>
         </div>
     );
