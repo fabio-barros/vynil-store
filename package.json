@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "i": "^0.3.7",
+    "jsx-runtime": "^1.2.0",
+    "npm": "^8.7.0",
+    "or": "^0.2.0",
+    "styled-components": "^5.3.5"
+  }
+}
