@@ -9,6 +9,9 @@ const GET_RECORDS_QUERY = gql`
             albumName
             albumCover
             releaseDate
+            price
+            rating
+            reviewsQty
         }
     }
 `;
@@ -32,11 +35,11 @@ export interface Record {
     albumCover: string;
     // genres: string[];
     // description: string;
-    // price: number;
+    price: number;
     // qtyInStock: number;
-    // rating: number;
+    rating: number;
     // reviews: Review[];
-    // reviewsQty: number;
+    reviewsQty: number;
 }
 
 export interface RecordInventoryData {
