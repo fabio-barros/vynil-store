@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Record } from "../contexts/ProductContext";
 
 export interface ProductInterface {
     id: string;
@@ -18,7 +19,7 @@ export interface ProductInterface {
 }
 
 export interface ProductProps {
-    product: ProductInterface;
+    product: Record;
 }
 
 export const Product: FC<ProductProps> = ({ product }) => {
@@ -28,9 +29,9 @@ export const Product: FC<ProductProps> = ({ product }) => {
         artistName,
         albumName,
         releaseDate,
-        rating,
-        numReviews,
-        price,
+        // rating,
+        // numReviews,
+        // price,
     } = product;
     return (
         <Card className="my-2 border-0">
@@ -46,7 +47,7 @@ export const Product: FC<ProductProps> = ({ product }) => {
                         <strong>{releaseDate}</strong>
                     </Card.Subtitle>
                 </Link>
-                <Card.Text as="h3">R${price}</Card.Text>
+                {/* <Card.Text as="h3">R${price}</Card.Text> */}
             </Card.Body>
         </Card>
     );
