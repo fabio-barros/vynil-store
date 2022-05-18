@@ -6,7 +6,7 @@ import { Header } from "../components/Header";
 import { Home } from "../components/pages/Home";
 import { ProductScreen } from "../components/pages/ProductScreen";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import ProductContextProvider from "../contexts/ProductContext";
+import ProductContextProvider from "../contexts/ProductsContext";
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_SERVER,
@@ -18,9 +18,9 @@ function App() {
         <>
             <ApolloProvider client={client}>
                 <Header />
-                <main className="py-3">
-                    <Container>
-                        <ProductContextProvider>
+                <ProductContextProvider>
+                    <main className="py-3">
+                        <Container>
                             <Routes>
                                 <Route path="/" element={<Home />} />
                                 <Route
@@ -28,9 +28,9 @@ function App() {
                                     element={<ProductScreen />}
                                 />
                             </Routes>
-                        </ProductContextProvider>
-                    </Container>
-                </main>
+                        </Container>
+                    </main>
+                </ProductContextProvider>
                 <Footer />
             </ApolloProvider>
         </>

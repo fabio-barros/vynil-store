@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Record } from "../contexts/ProductContext";
+import { Record } from "../contexts/ProductsContext";
 import { Rating } from "./Rating";
 
 export interface ProductInterface {

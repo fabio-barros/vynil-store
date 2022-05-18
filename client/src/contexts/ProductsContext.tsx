@@ -16,6 +16,22 @@ const GET_RECORDS_QUERY = gql`
     }
 `;
 
+export const GET_RECORD_QUERY = gql`
+    query GetRecordQuery($id: String!) {
+        record(id: $id) {
+            id
+            artistName
+            albumName
+            albumCover
+            releaseDate
+            price
+            rating
+            reviewsQty
+            qtyInStock
+        }
+    }
+`;
+
 interface Review {
     name: string;
     rating: number;
@@ -36,30 +52,33 @@ export interface Record {
     // genres: string[];
     // description: string;
     price: number;
-    // qtyInStock: number;
+    qtyInStock: number;
     rating: number;
     // reviews: Review[];
     reviewsQty: number;
 }
 
-export interface RecordInventoryData {
+export interface RecordsInventoryData {
     records: Record[];
+}
+export interface RecordInventoryData {
+    record: Record;
 }
 interface ProductContextProps {
     loading: boolean;
-    data: RecordInventoryData | undefined;
+    data: RecordsInventoryData | undefined;
     error: ApolloError | undefined;
 }
 
 export const ProductsContext = createContext({} as ProductContextProps);
 
-const ProductContextProvider: FC = ({ children }) => {
+const ProductsContextProvider: FC = ({ children }) => {
     const { loading, data, error } =
-        useQuery<RecordInventoryData>(GET_RECORDS_QUERY);
+        useQuery<RecordsInventoryData>(GET_RECORDS_QUERY);
     return (
         <ProductsContext.Provider value={{ loading, error, data }}>
             {children}
         </ProductsContext.Provider>
     );
 };
-export default ProductContextProvider;
+export default ProductsContextProvider;
