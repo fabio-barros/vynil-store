@@ -2,6 +2,7 @@ import { FC, Fragment, useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import products from "../../products/products";
+import { Loader } from "../Loader";
 import { Product } from "../Product";
 
 interface HomeProps {}
@@ -20,7 +21,7 @@ export const Home: FC<HomeProps> = () => {
                     ))}
                 </Row>
             ) : (
-                <h3>f</h3>
+                <Loader />
             )}
         </Fragment>
     );

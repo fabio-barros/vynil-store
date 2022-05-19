@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { FC, Fragment } from "react";
-import { Row, Col, Image, ListGroup, Card } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
@@ -9,6 +9,7 @@ import {
     RecordInventoryData,
 } from "../../contexts/ProductsContext";
 import products from "../../products/products";
+import { Loader } from "../Loader";
 import { Rating } from "../Rating";
 
 interface ProductScreenProps {}
@@ -57,11 +58,11 @@ export const ProductScreen: FC = () => {
                         />
                     </Col>
                     <Col sm={12} md={4}>
-                        <ListGroup>
-                            <ListGroup.Item className="border-0">
+                        <ListGroup variant="flush">
+                            <ListGroup.Item>
                                 <h3>{data?.record.albumName}</h3>
                             </ListGroup.Item>
-                            <ListGroup.Item className="border-0" as="div">
+                            <ListGroup.Item as="div">
                                 <Rating
                                     value={
                                         data?.record.rating
@@ -71,12 +72,12 @@ export const ProductScreen: FC = () => {
                                     text={`${data?.record.reviewsQty} avaliações`}
                                 />
                             </ListGroup.Item>
-                            <ListGroup.Item className="border-0">
+                            <ListGroup.Item>
                                 Preço: R${data?.record.price}
                             </ListGroup.Item>
-                            {/* <ListGroup.Item className="border-0">
-                            Descrição: {data?.record.description}
-                        </ListGroup.Item> */}
+                            <ListGroup.Item>
+                                Descrição: {data?.record.description}
+                            </ListGroup.Item>
                         </ListGroup>
                     </Col>
                     <Col md={3}>
@@ -92,18 +93,34 @@ export const ProductScreen: FC = () => {
                             <ListGroup.Item variant="flush">
                                 <Row>
                                     <Col>Status:</Col>
-                                    {/* <Col>
-                                    {product.numInStock > 0
-                                        ? "Em estoque"
-                                        : "Indiponível"}
-                                </Col> */}
+                                    <Col>
+                                        {(data?.record.qtyInStock
+                                            ? data?.record.qtyInStock
+                                            : 0) > 0
+                                            ? "Em estoque"
+                                            : "Indiponível"}
+                                    </Col>
                                 </Row>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                <Button
+                                    // onClick={addToCartHandler}
+                                    className="btn-block"
+                                    type="button"
+                                    disabled={
+                                        (data?.record.qtyInStock
+                                            ? data.record.qtyInStock
+                                            : 0) === 0
+                                    }
+                                >
+                                    Adicionar ao carrinho
+                                </Button>
                             </ListGroup.Item>
                         </Card>
                     </Col>
                 </Row>
             ) : (
-                <h3>F</h3>
+                <Loader />
             )}
         </Fragment>
     );

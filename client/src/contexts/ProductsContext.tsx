@@ -28,6 +28,7 @@ export const GET_RECORD_QUERY = gql`
             rating
             reviewsQty
             qtyInStock
+            description
         }
     }
 `;
@@ -50,7 +51,7 @@ export interface Record {
     // producers: Producer[];
     albumCover: string;
     // genres: string[];
-    // description: string;
+    description: string;
     price: number;
     qtyInStock: number;
     rating: number;
