@@ -1,7 +1,15 @@
 import { useQuery } from "@apollo/client";
-import { FC, Fragment } from "react";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { FC, Fragment, useState } from "react";
+import {
+    Row,
+    Col,
+    Image,
+    ListGroup,
+    Card,
+    Button,
+    Form,
+} from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
     GET_RECORD_QUERY,
@@ -19,13 +27,18 @@ interface RecordVars {
 
 export const ProductScreen: FC = () => {
     const { id } = useParams();
-
+    const [qty, setQty] = useState(0);
     const { loading, data, error } = useQuery<RecordInventoryData, RecordVars>(
         GET_RECORD_QUERY,
         {
             variables: { id: id },
         }
     );
+
+    let navigate = useNavigate();
+    const addToCartHandler = () => {
+        navigate(`/cart/${id}?qty=${qty}`);
+    };
     // const product = products.find((p) => p.id === id) || {
     //     artistName: "Jay-Z",
     //     albumName: "Reasonable Doubt",
@@ -102,9 +115,42 @@ export const ProductScreen: FC = () => {
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
+                            {(data?.record.qtyInStock
+                                ? data?.record.qtyInStock
+                                : 0) > 0 && (
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Quantidade:</Col>
+                                        <Col>
+                                            <Form.Control
+                                                as="select"
+                                                value={qty}
+                                                onChange={(e) =>
+                                                    setQty(
+                                                        parseInt(e.target.value)
+                                                    )
+                                                }
+                                            >
+                                                {[
+                                                    ...Array(
+                                                        data?.record.qtyInStock
+                                                    ).keys(),
+                                                ].map((x: number) => (
+                                                    <option
+                                                        value={x + 1}
+                                                        key={x + 1}
+                                                    >
+                                                        {x + 1}
+                                                    </option>
+                                                ))}
+                                            </Form.Control>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            )}
                             <ListGroup.Item>
                                 <Button
-                                    // onClick={addToCartHandler}
+                                    onClick={addToCartHandler}
                                     className="btn-block"
                                     type="button"
                                     disabled={
