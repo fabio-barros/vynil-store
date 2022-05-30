@@ -7,6 +7,8 @@ import { Home } from "../components/pages/Home";
 import { ProductScreen } from "../components/pages/ProductScreen";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import ProductContextProvider from "../contexts/ProductsContext";
+import CartScreen from "../components/pages/CartScreen";
+import CartContextProvider from "../contexts/CartContext";
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_SERVER,
@@ -19,17 +21,27 @@ function App() {
             <ApolloProvider client={client}>
                 <Header />
                 <ProductContextProvider>
-                    <main className="py-3">
-                        <Container>
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route
-                                    path="/product/:id"
-                                    element={<ProductScreen />}
-                                />
-                            </Routes>
-                        </Container>
-                    </main>
+                    <CartContextProvider>
+                        <main className="py-3">
+                            <Container>
+                                <Routes>
+                                    <Route path="/" element={<Home />} />
+                                    <Route
+                                        path="/product/:id"
+                                        element={<ProductScreen />}
+                                    />
+                                    <Route
+                                        path="/cart/:id"
+                                        element={<CartScreen />}
+                                    />
+                                    <Route
+                                        path="/cart"
+                                        element={<CartScreen />}
+                                    />
+                                </Routes>
+                            </Container>
+                        </main>
+                    </CartContextProvider>
                 </ProductContextProvider>
                 <Footer />
             </ApolloProvider>
