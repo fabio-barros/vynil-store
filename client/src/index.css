@@ -10,6 +10,7 @@ body {
 
 main {
     min-height: 80vh;
+    
 }
 
 .rating span {
@@ -27,3 +28,21 @@ main {
 .card-body .card-text {
     margin: 0.5rem 0;
 }
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+  }
+  
+
+  #lblCartCount {
+      font-size: 12px;
+      background: #ff0000;
+      color: #fff;
+      padding: 0 5px;
+      vertical-align: top;
+      margin-left: -10px; 
+  }
+

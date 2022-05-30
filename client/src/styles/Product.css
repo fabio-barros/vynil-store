@@ -1,0 +1,19 @@
+.card *:hover{
+    text-decoration: none !important;
+   
+}
+
+.card-img {
+
+    transition: all 0.3s ease;
+
+  }
+  
+.card-img:hover{
+    border: whitesmoke .5px solid;
+    transform: scale(1.03);
+
+    filter:sepia(.60);
+    /* filter:grayscale(.60); */
+    border-radius: 10px;
+}

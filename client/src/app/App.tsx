@@ -19,9 +19,9 @@ function App() {
     return (
         <>
             <ApolloProvider client={client}>
-                <Header />
                 <ProductContextProvider>
                     <CartContextProvider>
+                        <Header />
                         <main className="py-3">
                             <Container>
                                 <Routes>

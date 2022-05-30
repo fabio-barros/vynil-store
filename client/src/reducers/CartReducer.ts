@@ -1,5 +1,22 @@
 import { Record } from "../contexts/ProductsContext";
 
+export interface CartProduct {
+    id: string;
+    artistName: string;
+    albumName: string;
+    releaseDate: number;
+    // producers: Producer[];
+    albumCover: string;
+    // genres: string[];
+    description: string;
+    price: number;
+    qtyInStock: number;
+    rating: number;
+    // reviews: Review[];
+    reviewsQty: number;
+    qty: number;
+}
+
 export enum CartActionsKind {
     ADD_TO_CART = "ADD_TO_CART",
     REMOVE_FROM_CART = "REMOVE_FROM_CART",
@@ -7,10 +24,10 @@ export enum CartActionsKind {
 }
 export interface CartAction {
     type: CartActionsKind;
-    payload: Record;
+    payload: CartProduct;
 }
 export interface CartState {
-    cartItems: Record[];
+    cartItems: CartProduct[];
 }
 
 export const initialState: CartState = {
@@ -18,7 +35,7 @@ export const initialState: CartState = {
 };
 
 export const initializer = (initialValue = initialState) => {
-    const cartItems: Record[] = localStorage.getItem("cartItems")
+    const cartItems: CartProduct[] = localStorage.getItem("cartItems")
         ? JSON.parse(localStorage.getItem("cartItems") || "")
         : initialState.cartItems;
     return { cartItems: cartItems };
@@ -28,12 +45,10 @@ export const cartReducer = (
     state: CartState,
     action: CartAction
 ): CartState => {
+    const item = action.payload;
     switch (action.type) {
         case CartActionsKind.ADD_TO_CART:
-            const item = action.payload;
-
             const existItem = state.cartItems.find((x) => x.id === item.id);
-
             if (existItem) {
                 const newState = {
                     cartItems: state.cartItems.map((x) =>
@@ -41,31 +56,35 @@ export const cartReducer = (
                     ),
                     loading: false,
                 };
-                localStorage.setItem(
-                    "cartItems",
-                    JSON.stringify(newState.cartItems)
-                );
+
                 return newState;
             } else {
                 const newState = {
                     cartItems: [...state.cartItems, item],
                     loading: false,
                 };
-                localStorage.setItem(
-                    "cartItems",
-                    JSON.stringify(newState.cartItems)
-                );
+
                 return newState;
             }
 
-        // case CartActionsKind.REMOVE_FROM_CART:
+        case CartActionsKind.REMOVE_FROM_CART:
+            const productToBeRemoved = state.cartItems.find(
+                (x) => x.id === item.id
+            );
+
+            return productToBeRemoved
+                ? {
+                      cartItems: state.cartItems.filter(
+                          (item) => item.id !== productToBeRemoved.id
+                      ),
+                  }
+                : { ...state };
         //     return state.cartItems.filter(
         //         (item) => item.id !== action.payload.id
         //     );
         //     break;
         // case "reset":
         //     return initialState;
-        //     break;
 
         default:
             return state;

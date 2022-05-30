@@ -4,6 +4,7 @@ import { createContext, Dispatch, FC, useEffect, useReducer } from "react";
 import {
     CartAction,
     CartActionsKind,
+    CartProduct,
     cartReducer,
     CartState,
     initializer,
@@ -16,7 +17,7 @@ import {
 } from "./ProductsContext";
 
 interface CartContextProps {
-    cartItems: Record[];
+    cartItems: CartProduct[];
     dispatch: Dispatch<CartAction>;
 }
 export const CartContext = createContext({} as CartContextProps);
