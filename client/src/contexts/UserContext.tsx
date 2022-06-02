@@ -1,10 +1,10 @@
 import { ApolloError, gql, useLazyQuery, useQuery } from "@apollo/client";
 import { createContext, Dispatch, FC, useEffect, useReducer } from "react";
 import {
-    initializer,
-    initialState,
     UserInfoAction,
-    userReducer,
+    loginReducer,
+    loginInitialState,
+    loginInitializer,
 } from "../reducers/UserReducer";
 
 import {
@@ -28,6 +28,18 @@ export const LOGIN_MUTATION = gql`
         }
     }
 `;
+export interface RegisterUserInput {
+    username: string;
+    password: string;
+}
+export const REGISTER_MUTATION = gql`
+    mutation register($input: CreateUserInput!) {
+        register(createUserInput: $input) {
+            id
+            username
+        }
+    }
+`;
 export interface User {
     id: string;
     username: string;
@@ -43,7 +55,17 @@ interface UserContextProps {
 export const UserContext = createContext({} as UserContextProps);
 
 const UserContextProvider: FC = ({ children }) => {
-    const [user, dispatch] = useReducer(userReducer, initialState, initializer);
+    const [user, dispatch] = useReducer(
+        loginReducer,
+        loginInitialState,
+        loginInitializer
+    );
+
+    const [registeredUser, registerDispatch] = useReducer(
+        loginReducer,
+        loginInitialState,
+        loginInitializer
+    );
 
     useEffect(() => {
         localStorage.setItem("userInfo", JSON.stringify(user.userInfo));

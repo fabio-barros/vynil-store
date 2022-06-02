@@ -11,6 +11,8 @@ import CartScreen from "../components/pages/CartScreen";
 import CartContextProvider from "../contexts/CartContext";
 import LoginScreen from "../components/pages/LoginScreen";
 import UserContextProvider from "../contexts/UserContext";
+import RegisterScreen from "../components/pages/RegisterScreen";
+import RegisterContextProvider from "../contexts/RegisterContext";
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_SERVER,
@@ -24,30 +26,36 @@ function App() {
                 <ProductContextProvider>
                     <CartContextProvider>
                         <UserContextProvider>
-                            <Header />
-                            <main className="py-3 main">
-                                {/* <Container> */}
-                                <Routes>
-                                    <Route
-                                        path="/login"
-                                        element={<LoginScreen />}
-                                    />
-                                    <Route path="/" element={<Home />} />
-                                    <Route
-                                        path="/product/:id"
-                                        element={<ProductScreen />}
-                                    />
-                                    <Route
-                                        path="/cart/:id"
-                                        element={<CartScreen />}
-                                    />
-                                    <Route
-                                        path="/cart"
-                                        element={<CartScreen />}
-                                    />
-                                </Routes>
-                                {/* </Container> */}
-                            </main>
+                            <RegisterContextProvider>
+                                <Header />
+                                <main className="py-3 main">
+                                    {/* <Container> */}
+                                    <Routes>
+                                        <Route
+                                            path="/login"
+                                            element={<LoginScreen />}
+                                        />
+                                        <Route
+                                            path="/register"
+                                            element={<RegisterScreen />}
+                                        />
+                                        <Route path="/" element={<Home />} />
+                                        <Route
+                                            path="/product/:id"
+                                            element={<ProductScreen />}
+                                        />
+                                        <Route
+                                            path="/cart/:id"
+                                            element={<CartScreen />}
+                                        />
+                                        <Route
+                                            path="/cart"
+                                            element={<CartScreen />}
+                                        />
+                                    </Routes>
+                                    {/* </Container> */}
+                                </main>
+                            </RegisterContextProvider>
                         </UserContextProvider>
                     </CartContextProvider>
                 </ProductContextProvider>

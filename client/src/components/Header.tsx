@@ -2,8 +2,12 @@ import { FC, useContext, useEffect, useState } from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { CartContext } from "../contexts/CartContext";
+import { RegisterContext } from "../contexts/RegisterContext";
 import { UserContext } from "../contexts/UserContext";
-import { UserInfoActionsKind } from "../reducers/UserReducer";
+import {
+    loginInitialState,
+    UserInfoActionsKind,
+} from "../reducers/UserReducer";
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = ({}) => {
@@ -11,10 +15,14 @@ export const Header: FC<HeaderProps> = ({}) => {
 
     const { cartItems, dispatch } = useContext(CartContext);
     const { userInfo, dispatch: userContextDispatch } = useContext(UserContext);
+    // const { user, registerDispatch } = useContext(RegisterContext);
 
     console.log(cartItems);
     const logoutHandler = () => {
-        userContextDispatch({ type: UserInfoActionsKind.LOGOFF });
+        userContextDispatch({
+            type: UserInfoActionsKind.LOGOFF,
+            payload: loginInitialState.userInfo,
+        });
     };
     useEffect(() => {
         const initialValue = 0;
