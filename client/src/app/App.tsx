@@ -9,6 +9,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import ProductContextProvider from "../contexts/ProductsContext";
 import CartScreen from "../components/pages/CartScreen";
 import CartContextProvider from "../contexts/CartContext";
+import LoginScreen from "../components/pages/LoginScreen";
+import UserContextProvider from "../contexts/UserContext";
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_SERVER,
@@ -21,10 +23,15 @@ function App() {
             <ApolloProvider client={client}>
                 <ProductContextProvider>
                     <CartContextProvider>
-                        <Header />
-                        <main className="py-3">
-                            <Container>
+                        <UserContextProvider>
+                            <Header />
+                            <main className="py-3 main">
+                                {/* <Container> */}
                                 <Routes>
+                                    <Route
+                                        path="/login"
+                                        element={<LoginScreen />}
+                                    />
                                     <Route path="/" element={<Home />} />
                                     <Route
                                         path="/product/:id"
@@ -39,8 +46,9 @@ function App() {
                                         element={<CartScreen />}
                                     />
                                 </Routes>
-                            </Container>
-                        </main>
+                                {/* </Container> */}
+                            </main>
+                        </UserContextProvider>
                     </CartContextProvider>
                 </ProductContextProvider>
                 <Footer />

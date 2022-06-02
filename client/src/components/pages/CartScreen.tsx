@@ -9,6 +9,7 @@ import {
     Button,
     Card,
     Col,
+    Container,
     Form,
     Image,
     ListGroup,
@@ -42,7 +43,7 @@ const CartScreen: FC<CartScreenProps> = ({}) => {
 
     const { cartItems, dispatch } = useContext(CartContext);
 
-    const [executeQuery, { loading }] = useLazyQuery<
+    const [executeQuery, { loading, error, called }] = useLazyQuery<
         RecordInventoryData,
         RecordVars
     >(GET_RECORD_QUERY, {
@@ -69,7 +70,7 @@ const CartScreen: FC<CartScreenProps> = ({}) => {
     };
 
     let navigate = useNavigate();
-    const goToCheckoutHandler = () => {
+    const checkoutHandler = () => {
         navigate(`/login?redirect=shipping`);
     };
 
@@ -82,7 +83,7 @@ const CartScreen: FC<CartScreenProps> = ({}) => {
     }, [executeQuery, id, locationQty]);
 
     return (
-        <Fragment>
+        <Container>
             {" "}
             <Link className="btn btn-light  my-3" to="/">
                 Continuar comprando
@@ -202,7 +203,7 @@ const CartScreen: FC<CartScreenProps> = ({}) => {
                                     type="button"
                                     className="btn-block"
                                     disabled={cartItems.length === 0}
-                                    // onClick
+                                    onClick={checkoutHandler}
                                 >
                                     Finalizar Compra
                                 </Button>
@@ -211,7 +212,7 @@ const CartScreen: FC<CartScreenProps> = ({}) => {
                     </Card>
                 </Col>
             </Row>
-        </Fragment>
+        </Container>
     );
 };
 export default CartScreen;

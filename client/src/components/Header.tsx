@@ -1,14 +1,21 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { CartContext } from "../contexts/CartContext";
+import { UserContext } from "../contexts/UserContext";
+import { UserInfoActionsKind } from "../reducers/UserReducer";
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = ({}) => {
     const [counter, setCounter] = useState<number>(0);
 
     const { cartItems, dispatch } = useContext(CartContext);
+    const { userInfo, dispatch: userContextDispatch } = useContext(UserContext);
+
     console.log(cartItems);
+    const logoutHandler = () => {
+        userContextDispatch({ type: UserInfoActionsKind.LOGOFF });
+    };
     useEffect(() => {
         const initialValue = 0;
         const c = cartItems.reduce(
@@ -47,14 +54,25 @@ export const Header: FC<HeaderProps> = ({}) => {
                                 {/* Carrinho */}
                             </Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/login">
-                            <Nav.Link>
-                                <i
-                                    className="fas fa-user"
-                                    style={{ fontSize: "20px" }}
-                                />
-                            </Nav.Link>
-                        </LinkContainer>
+                        {userInfo.user ? (
+                            <NavDropdown title={userInfo.user.username}>
+                                <LinkContainer to="/profile">
+                                    <NavDropdown.Item>Perfil</NavDropdown.Item>
+                                </LinkContainer>
+                                <NavDropdown.Item onClick={logoutHandler}>
+                                    Logout
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        ) : (
+                            <LinkContainer to="/login">
+                                <Nav.Link>
+                                    <i
+                                        className="fas fa-user"
+                                        style={{ fontSize: "20px" }}
+                                    />
+                                </Nav.Link>
+                            </LinkContainer>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

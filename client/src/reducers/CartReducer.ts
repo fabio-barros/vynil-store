@@ -79,12 +79,8 @@ export const cartReducer = (
                       ),
                   }
                 : { ...state };
-        //     return state.cartItems.filter(
-        //         (item) => item.id !== action.payload.id
-        //     );
-        //     break;
-        // case "reset":
-        //     return initialState;
+        case CartActionsKind.CLEAR_CART:
+            return initialState;
 
         default:
             return state;

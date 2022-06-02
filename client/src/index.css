@@ -46,3 +46,6 @@ main {
       margin-left: -10px; 
   }
 
+.main{
+    display: flex;
+}
