@@ -1,21 +1,11 @@
-import { ApolloError, gql, useLazyQuery, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { createContext, Dispatch, FC, useEffect, useReducer } from "react";
 import {
-    UserInfoAction,
-    loginReducer,
-    loginInitialState,
-    loginInitializer,
     RegisterAction,
     registerReducer,
     registerInitialState,
     registerInitializer,
 } from "../reducers/UserReducer";
-
-import {
-    Record,
-    RecordsInventoryData,
-    GET_RECORD_QUERY,
-} from "./ProductsContext";
 
 export interface RegisterUserInput {
     username: string;

@@ -17,6 +17,7 @@ import ProfileScreen from "../components/pages/ProfileScreen";
 import ShippingScreen from "../components/pages/ShippingScreen";
 import PaymentScreen from "../components/pages/PaymentScreen";
 import PlaceOrderScreen from "../components/pages/PlaceOrderScreen";
+import ShippingContextProvider from "../contexts/ShippingContext";
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_SERVER,
@@ -31,54 +32,59 @@ function App() {
                     <CartContextProvider>
                         <UserContextProvider>
                             <RegisterContextProvider>
-                                <Header />
-                                <Container fluid className="py-3 main">
-                                    {/* <Container> */}
-                                    <Routes>
-                                        <Route
-                                            path="/login"
-                                            element={<LoginScreen />}
-                                        />
-                                        <Route
-                                            path="/profile"
-                                            element={<ProfileScreen />}
-                                        />
-                                        <Route
-                                            path="/register"
-                                            element={<RegisterScreen />}
-                                        />
-                                        <Route path="/" element={<Home />} />
-                                        <Route
-                                            path="/product/:id"
-                                            element={<ProductScreen />}
-                                        />
-                                        <Route
-                                            path="/cart/:id"
-                                            element={<CartScreen />}
-                                        />
-                                        <Route
-                                            path="/cart"
-                                            element={<CartScreen />}
-                                        />
-                                        <Route
-                                            path="/shipping"
-                                            element={<ShippingScreen />}
-                                        />
-                                        <Route
-                                            path="/payment"
-                                            element={<PaymentScreen />}
-                                        />
-                                        <Route
-                                            path="/placeorder"
-                                            element={<PlaceOrderScreen />}
-                                        />
-                                        <Route
-                                            path="/login/shipping"
-                                            element={<ShippingScreen />}
-                                        />
-                                    </Routes>
-                                    {/* </Container> */}
-                                </Container>
+                                <ShippingContextProvider>
+                                    <Header />
+                                    <Container fluid className="py-3 main">
+                                        {/* <Container> */}
+                                        <Routes>
+                                            <Route
+                                                path="/login"
+                                                element={<LoginScreen />}
+                                            />
+                                            <Route
+                                                path="/profile"
+                                                element={<ProfileScreen />}
+                                            />
+                                            <Route
+                                                path="/register"
+                                                element={<RegisterScreen />}
+                                            />
+                                            <Route
+                                                path="/"
+                                                element={<Home />}
+                                            />
+                                            <Route
+                                                path="/product/:id"
+                                                element={<ProductScreen />}
+                                            />
+                                            <Route
+                                                path="/cart/:id"
+                                                element={<CartScreen />}
+                                            />
+                                            <Route
+                                                path="/cart"
+                                                element={<CartScreen />}
+                                            />
+                                            <Route
+                                                path="/shipping"
+                                                element={<ShippingScreen />}
+                                            />
+                                            <Route
+                                                path="/payment"
+                                                element={<PaymentScreen />}
+                                            />
+                                            <Route
+                                                path="/placeorder"
+                                                element={<PlaceOrderScreen />}
+                                            />
+                                            <Route
+                                                path="/login/shipping"
+                                                element={<ShippingScreen />}
+                                            />
+                                        </Routes>
+                                        {/* </Container> */}
+                                    </Container>
+                                </ShippingContextProvider>
                             </RegisterContextProvider>
                         </UserContextProvider>
                     </CartContextProvider>

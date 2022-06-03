@@ -1,38 +1,38 @@
-import { ApolloError, useLazyQuery, useQuery } from "@apollo/client";
 import { createContext, Dispatch, FC, useEffect, useReducer } from "react";
-
 import {
-    CartAction,
-    CartActionsKind,
-    CartProduct,
-    cartReducer,
-    CartState,
-    initializer,
-    initialState,
-} from "../reducers/CartReducer";
-import {
-    Record,
-    RecordsInventoryData,
-    GET_RECORD_QUERY,
-} from "./ProductsContext";
+    PaymentMethod,
+    PaymentMethodAction,
+    paymentMethodInitializer,
+    paymentMethodInitialState,
+    paymentMethodReducer,
+} from "../reducers/PaymentMethodReducer";
 
 interface PaymentMethodContextProps {
-    cartItems: CartProduct[];
-    dispatch: Dispatch<CartAction>;
+    paymentMethod: PaymentMethod;
+    paymentMethodDispatch: Dispatch<PaymentMethodAction>;
 }
 export const PaymentMethodContext = createContext(
     {} as PaymentMethodContextProps
 );
 
 const PaymentMethodContextontextProvider: FC = ({ children }) => {
-    const [cart, dispatch] = useReducer(cartReducer, initialState, initializer);
+    const [payment, paymentMethodDispatch] = useReducer(
+        paymentMethodReducer,
+        paymentMethodInitialState,
+        paymentMethodInitializer
+    );
 
     useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(cart.cartItems));
-    }, [cart]);
-    const cartItems = cart.cartItems;
+        localStorage.setItem(
+            "paymentMethod",
+            JSON.stringify(payment.paymentMethod)
+        );
+    }, [payment]);
+    const paymentMethod = payment.paymentMethod;
     return (
-        <PaymentMethodContext.Provider value={{ cartItems, dispatch }}>
+        <PaymentMethodContext.Provider
+            value={{ paymentMethod, paymentMethodDispatch }}
+        >
             {children}
         </PaymentMethodContext.Provider>
     );

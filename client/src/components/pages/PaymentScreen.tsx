@@ -38,6 +38,7 @@ import {
     RegisterContext,
     RegisteredUser,
 } from "../../contexts/RegisterContext";
+import { ShippingContext } from "../../contexts/ShippingContext";
 import {
     LOGIN_MUTATION,
     LoginUserInput,
@@ -63,33 +64,21 @@ interface RecordVars {
 }
 
 const PaymentScreen: FC<PaymentScreenProps> = ({}) => {
+    let location = useLocation();
+    const { shippingAddress, shippingAddressDispatch } =
+        useContext(ShippingContext);
+
     const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
     const { user, registerDispatch } = useContext(RegisterContext);
-
-    // const [register, { data, loading, error }] = useMutation<
-    //     { register: RegisteredUser },
-    //     { input: RegisterUserInput }
-    // >(REGISTER_MUTATION, {
-    //     variables: { input: { username: email, password: password } },
-    //     onCompleted(data) {
-    //         registerDispatch({
-    //             type: RegisterActionsKind.REGISTER,
-    //             payload: data.register,
-    //         });
-    //     },
-    // });
-
     let navigate = useNavigate();
-    let location = useLocation();
-    const redirect = location.search ? location.search.split("=")[1] : "/login";
-    // useEffect(() => {
-    //     if (data?.register) {
-    //         setTimeout(function () {
-    //             navigate(redirect);
-    //         }, 1500);
-    //     }
-    // }, [data?.register, navigate, redirect]);
+
+    useEffect(() => {
+        if (shippingAddress.postalCode === undefined) {
+            console.log(shippingAddress.postalCode);
+            navigate("/shipping");
+        }
+    }, [navigate, shippingAddress.postalCode]);
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

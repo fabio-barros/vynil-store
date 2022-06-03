@@ -1,36 +1,37 @@
-import { ApolloError, useLazyQuery, useQuery } from "@apollo/client";
 import { createContext, Dispatch, FC, useEffect, useReducer } from "react";
 
 import {
-    CartAction,
-    CartActionsKind,
-    CartProduct,
-    cartReducer,
-    CartState,
-    initializer,
-    initialState,
-} from "../reducers/CartReducer";
-import {
-    Record,
-    RecordsInventoryData,
-    GET_RECORD_QUERY,
-} from "./ProductsContext";
+    ShippingAddress,
+    ShippingAddressAction,
+    shippingAddressInitializer,
+    shippingAddressInitialState,
+    shippingAddressReducer,
+} from "../reducers/ShippingReducer";
 
 interface ShippingContextProps {
-    cartItems: CartProduct[];
-    dispatch: Dispatch<CartAction>;
+    shippingAddress: ShippingAddress;
+    shippingAddressDispatch: Dispatch<ShippingAddressAction>;
 }
 export const ShippingContext = createContext({} as ShippingContextProps);
 
 const ShippingContextProvider: FC = ({ children }) => {
-    const [cart, dispatch] = useReducer(cartReducer, initialState, initializer);
+    const [shipping, shippingAddressDispatch] = useReducer(
+        shippingAddressReducer,
+        shippingAddressInitialState,
+        shippingAddressInitializer
+    );
 
     useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(cart.cartItems));
-    }, [cart]);
-    const cartItems = cart.cartItems;
+        localStorage.setItem(
+            "shippingAddress",
+            JSON.stringify(shipping.shippingAddress)
+        );
+    }, [shipping]);
+    const shippingAddress = shipping.shippingAddress;
     return (
-        <ShippingContext.Provider value={{ cartItems, dispatch }}>
+        <ShippingContext.Provider
+            value={{ shippingAddress, shippingAddressDispatch }}
+        >
             {children}
         </ShippingContext.Provider>
     );

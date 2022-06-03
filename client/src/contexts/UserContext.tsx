@@ -1,4 +1,4 @@
-import { ApolloError, gql, useLazyQuery, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { createContext, Dispatch, FC, useEffect, useReducer } from "react";
 import {
     UserInfoAction,
@@ -6,12 +6,6 @@ import {
     loginInitialState,
     loginInitializer,
 } from "../reducers/UserReducer";
-
-import {
-    Record,
-    RecordsInventoryData,
-    GET_RECORD_QUERY,
-} from "./ProductsContext";
 
 export interface LoginUserInput {
     username: string;
@@ -56,12 +50,6 @@ export const UserContext = createContext({} as UserContextProps);
 
 const UserContextProvider: FC = ({ children }) => {
     const [user, dispatch] = useReducer(
-        loginReducer,
-        loginInitialState,
-        loginInitializer
-    );
-
-    const [registeredUser, registerDispatch] = useReducer(
         loginReducer,
         loginInitialState,
         loginInitializer

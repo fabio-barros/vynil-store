@@ -1,12 +1,4 @@
 import {
-    ApolloError,
-    QueryResult,
-    useLazyQuery,
-    useMutation,
-    useQuery,
-} from "@apollo/client";
-
-import {
     FC,
     FormEvent,
     Fragment,
@@ -23,35 +15,16 @@ import {
     ListGroup,
     Row,
 } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router";
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
-import { CartContext } from "../../contexts/CartContext";
+import { useNavigate } from "react-router";
 
-import {
-    GET_RECORD_QUERY,
-    Record,
-    RecordInventoryData,
-    RecordsInventoryData,
-} from "../../contexts/ProductsContext";
 import {
     RegisterContext,
     RegisteredUser,
 } from "../../contexts/RegisterContext";
-import {
-    LOGIN_MUTATION,
-    LoginUserInput,
-    UserInfo,
-    UserContext,
-    User,
-    RegisterUserInput,
-    REGISTER_MUTATION,
-} from "../../contexts/UserContext";
+import { ShippingContext } from "../../contexts/ShippingContext";
 
-import {
-    RegisterActionsKind,
-    UserInfoActionsKind,
-} from "../../reducers/UserReducer";
+import { ShippingActionsKind } from "../../reducers/ShippingReducer";
+
 import CheckoutSteps from "../CheckoutSteps";
 import FormContainer from "../FormContainer";
 import { Loader } from "../Loader";
@@ -63,42 +36,25 @@ interface RecordVars {
 }
 
 const ShippingScreen: FC<ShippingScreenProps> = ({}) => {
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [postalCode, setPostalCode] = useState("");
-    const [country, setCountry] = useState("");
+    const { shippingAddress, shippingAddressDispatch } =
+        useContext(ShippingContext);
+    const [address, setAddress] = useState(shippingAddress.address);
+    const [city, setCity] = useState(shippingAddress.city);
+    const [houseNumber, setHouseNumber] = useState(shippingAddress.number);
+    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+    const [state, setState] = useState(shippingAddress.state);
 
     const { user, registerDispatch } = useContext(RegisterContext);
-    // const { userInfo, dispatch } = useContext(UserContext);
 
-    // const [register, { data, loading, error }] = useMutation<
-    //     { register: RegisteredUser },
-    //     { input: RegisterUserInput }
-    // >(REGISTER_MUTATION, {
-    //     variables: { input: { username: email, password: password } },
-    //     onCompleted(data) {
-    //         registerDispatch({
-    //             type: RegisterActionsKind.REGISTER,
-    //             payload: data.register,
-    //         });
-    //     },
-    // });
-    // if (!userInfo.access_token) {
-    //     navigate("/login");
-    // }
     let navigate = useNavigate();
-    let location = useLocation();
-    const redirect = location.search ? location.search.split("=")[1] : "/login";
-    // useEffect(() => {
-    //     if (data?.register) {
-    //         setTimeout(function () {
-    //             navigate(redirect);
-    //         }, 1500);
-    //     }
-    // }, [data?.register, navigate, redirect]);
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        shippingAddressDispatch({
+            type: ShippingActionsKind.SAVE_SHIPPING_ADDRESS,
+            payload: { address, city, number: houseNumber, postalCode, state },
+        });
+        navigate("/payment");
     };
     return (
         <Fragment>
@@ -109,29 +65,51 @@ const ShippingScreen: FC<ShippingScreenProps> = ({}) => {
                     <Form.Label>Endereço</Form.Label>
                     <Form.Group>
                         <Form.Control
+                            required
                             type="text"
                             placeholder="  Digite o endereço"
                             value={address}
-                            required
                             onChange={(e) => setAddress(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
                     <Form.Label>Cidade</Form.Label>
                     <Form.Group>
                         <Form.Control
+                            required
                             type="text"
                             placeholder="  Digite a cidade"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
+                    <Form.Label>Número</Form.Label>
+                    <Form.Group>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder="  Digite o número"
+                            value={houseNumber}
+                            onChange={(e) => setHouseNumber(e.target.value)}
+                        ></Form.Control>
+                    </Form.Group>
                     <Form.Label>CEP</Form.Label>
                     <Form.Group>
                         <Form.Control
+                            required
                             type="text"
                             placeholder="  Digite o CEP"
                             value={postalCode}
                             onChange={(e) => setPostalCode(e.target.value)}
+                        ></Form.Control>
+                    </Form.Group>
+                    <Form.Label>Estado</Form.Label>
+                    <Form.Group>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder=" Digite o Estado"
+                            value={state}
+                            onChange={(e) => setState(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
                     <Button type="submit" variant="primary">
