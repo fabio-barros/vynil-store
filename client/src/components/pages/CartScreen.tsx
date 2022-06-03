@@ -26,6 +26,7 @@ import {
     RecordInventoryData,
     RecordsInventoryData,
 } from "../../contexts/ProductsContext";
+import { UserContext } from "../../contexts/UserContext";
 import { CartActionsKind, CartProduct } from "../../reducers/CartReducer";
 import { Loader } from "../Loader";
 import { Message } from "../Message";
@@ -42,6 +43,7 @@ const CartScreen: FC<CartScreenProps> = ({}) => {
     const locationQty = Number(useLocation().search.split("=")[1]);
 
     const { cartItems, dispatch } = useContext(CartContext);
+    const { userInfo } = useContext(UserContext);
 
     const [executeQuery, { loading, error, called }] = useLazyQuery<
         RecordInventoryData,
@@ -71,7 +73,9 @@ const CartScreen: FC<CartScreenProps> = ({}) => {
 
     let navigate = useNavigate();
     const checkoutHandler = () => {
-        navigate(`/login?redirect=shipping`);
+        navigate(
+            userInfo.access_token ? "/shipping" : `/login?redirect=shipping`
+        );
     };
 
     useEffect(() => {

@@ -69,15 +69,19 @@ const LoginScreen: FC<LoginScreenProps> = ({}) => {
             });
         },
     });
-
     let navigate = useNavigate();
+
+    if (userInfo.access_token) {
+        navigate("/");
+    }
+
     let location = useLocation();
     const redirect = location.search ? location.search.split("=")[1] : "/";
     useEffect(() => {
         if (data?.login) {
-            setTimeout(function () {
-                navigate(redirect);
-            }, 1500);
+            // setTimeout(function () {
+            navigate(redirect);
+            // }, 1500);
         }
     }, [data?.login, navigate, redirect, userInfo]);
 
@@ -87,9 +91,6 @@ const LoginScreen: FC<LoginScreenProps> = ({}) => {
     };
     return (
         <Fragment>
-            <h6>{email}</h6>
-            <h6>{password}</h6>
-
             <FormContainer>
                 {data && data.login ? (
                     <Message variant="success">Redirecionando...</Message>

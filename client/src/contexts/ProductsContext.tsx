@@ -11,6 +11,10 @@ const GET_RECORDS_QUERY = gql`
             releaseDate
             price
             rating
+            reviews {
+                name
+                comment
+            }
             reviewsQty
         }
     }
@@ -26,6 +30,11 @@ export const GET_RECORD_QUERY = gql`
             releaseDate
             price
             rating
+            reviews {
+                name
+                comment
+                rating
+            }
             reviewsQty
             qtyInStock
             description
@@ -55,7 +64,7 @@ export interface Record {
     price: number;
     qtyInStock: number;
     rating: number;
-    // reviews: Review[];
+    reviews: Review[];
     reviewsQty: number;
 }
 

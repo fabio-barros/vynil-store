@@ -129,7 +129,7 @@ const RegisterScreen: FC<RegisterScreenProps> = ({}) => {
                         ></Form.Control>
                     </Form.Group>
                     <Button type="submit" variant="primary">
-                        Log In
+                        Cadastrar
                     </Button>
                 </Form>
                 <Row className="py-3">

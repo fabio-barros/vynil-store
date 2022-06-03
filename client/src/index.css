@@ -21,9 +21,9 @@ main {
     border: none;
 }
 
-.card-body {
+/* .card-body {
     font-family: Arial, Helvetica, sans-serif;
-}
+} */
 
 .card-body .card-text {
     margin: 0.5rem 0;

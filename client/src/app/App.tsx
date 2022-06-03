@@ -13,6 +13,10 @@ import LoginScreen from "../components/pages/LoginScreen";
 import UserContextProvider from "../contexts/UserContext";
 import RegisterScreen from "../components/pages/RegisterScreen";
 import RegisterContextProvider from "../contexts/RegisterContext";
+import ProfileScreen from "../components/pages/ProfileScreen";
+import ShippingScreen from "../components/pages/ShippingScreen";
+import PaymentScreen from "../components/pages/PaymentScreen";
+import PlaceOrderScreen from "../components/pages/PlaceOrderScreen";
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_SERVER,
@@ -28,12 +32,16 @@ function App() {
                         <UserContextProvider>
                             <RegisterContextProvider>
                                 <Header />
-                                <main className="py-3 main">
+                                <Container fluid className="py-3 main">
                                     {/* <Container> */}
                                     <Routes>
                                         <Route
                                             path="/login"
                                             element={<LoginScreen />}
+                                        />
+                                        <Route
+                                            path="/profile"
+                                            element={<ProfileScreen />}
                                         />
                                         <Route
                                             path="/register"
@@ -52,9 +60,25 @@ function App() {
                                             path="/cart"
                                             element={<CartScreen />}
                                         />
+                                        <Route
+                                            path="/shipping"
+                                            element={<ShippingScreen />}
+                                        />
+                                        <Route
+                                            path="/payment"
+                                            element={<PaymentScreen />}
+                                        />
+                                        <Route
+                                            path="/placeorder"
+                                            element={<PlaceOrderScreen />}
+                                        />
+                                        <Route
+                                            path="/login/shipping"
+                                            element={<ShippingScreen />}
+                                        />
                                     </Routes>
                                     {/* </Container> */}
-                                </main>
+                                </Container>
                             </RegisterContextProvider>
                         </UserContextProvider>
                     </CartContextProvider>
