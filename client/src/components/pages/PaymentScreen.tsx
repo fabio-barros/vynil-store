@@ -27,6 +27,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
+import { PaymentMethodContext } from "../../contexts/PaymentMethodContext";
 
 import {
     GET_RECORD_QUERY,
@@ -48,6 +49,7 @@ import {
     RegisterUserInput,
     REGISTER_MUTATION,
 } from "../../contexts/UserContext";
+import { PaymentMethodActionsKind } from "../../reducers/PaymentMethodReducer";
 
 import {
     RegisterActionsKind,
@@ -67,8 +69,10 @@ const PaymentScreen: FC<PaymentScreenProps> = ({}) => {
     let location = useLocation();
     const { shippingAddress, shippingAddressDispatch } =
         useContext(ShippingContext);
+    const { paymentMethod, paymentMethodDispatch } =
+        useContext(PaymentMethodContext);
 
-    const [paymentMethod, setPaymentMethod] = useState("PayPal");
+    const [payment, setPaymentMethod] = useState("PayPal");
 
     const { user, registerDispatch } = useContext(RegisterContext);
     let navigate = useNavigate();
@@ -82,6 +86,11 @@ const PaymentScreen: FC<PaymentScreenProps> = ({}) => {
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        paymentMethodDispatch({
+            type: PaymentMethodActionsKind.SAVE_PAYMENT_METHOD,
+            payload: { method: payment },
+        });
+        navigate("/placeorder");
     };
     return (
         <Fragment>
