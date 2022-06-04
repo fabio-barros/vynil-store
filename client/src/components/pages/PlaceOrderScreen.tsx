@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/client";
 import { FC, Fragment, useContext } from "react";
 import {
     Button,
@@ -10,9 +11,16 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
+import {
+    CreateOrderInput,
+    CREATE_ORDER_MUTATION,
+    Order,
+    OrderContext,
+} from "../../contexts/OrderContext";
 import { PaymentMethodContext } from "../../contexts/PaymentMethodContext";
 import { ShippingContext } from "../../contexts/ShippingContext";
 import { UserContext } from "../../contexts/UserContext";
+import { OrderActionsKind } from "../../reducers/OrderReducer";
 import CheckoutSteps from "../CheckoutSteps";
 import { Message } from "../Message";
 
@@ -20,21 +28,62 @@ interface PlaceOrderScreenProps {}
 
 const PlaceOrderScreen: FC<PlaceOrderScreenProps> = ({}) => {
     const { userInfo, dispatch: userContextDispatch } = useContext(UserContext);
+
     const { cartItems, dispatch: cartContextDispatch } =
         useContext(CartContext);
+
     const { shippingAddress, shippingAddressDispatch } =
         useContext(ShippingContext);
+
     const { paymentMethod } = useContext(PaymentMethodContext);
+
+    const { order, orderDispatch } = useContext(OrderContext);
 
     const itemsPrice = Number(
         cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
     ).toFixed(2);
+
     const shippingPrice = Number(
         Number(itemsPrice) > 300
             ? 0
             : cartItems.reduce((acc, item) => acc + 10 * item.qty, 0)
     ).toFixed(2);
-    const total = Number(Number(itemsPrice) + Number(shippingPrice)).toFixed(2);
+
+    const totalPrice = Number(
+        Number(itemsPrice) + Number(shippingPrice)
+    ).toFixed(2);
+
+    const [placeOrder, { data, loading, error }] = useMutation<
+        { order: Order },
+        { input: CreateOrderInput }
+    >(CREATE_ORDER_MUTATION, {
+        variables: {
+            input: {
+                address: shippingAddress.address,
+                houseNumber: shippingAddress.number,
+                postalCode: shippingAddress.postalCode,
+                city: shippingAddress.city,
+                state: shippingAddress.state,
+                buyerId: userInfo.user.id,
+                // products: cartItems.reduce((c: Order, v) => ),
+                products: cartItems.map((item) => ({
+                    qty: item.qty,
+                    recordId: item.id,
+                })),
+                itemsPrice: itemsPrice,
+                shippingPrice: shippingPrice,
+                totalPrice: totalPrice,
+                status: "finished",
+                paymentMethod: paymentMethod.method,
+            },
+        },
+        onCompleted(data) {
+            orderDispatch({
+                type: OrderActionsKind.SAVE_ORDER,
+                payload: data.order,
+            });
+        },
+    });
 
     const placeOrderHandler = () => {};
 
