@@ -1,6 +1,7 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useContext } from "react";
 import { Nav } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { UserContext } from "../contexts/UserContext";
 
 interface CheckoutStepsProps {
     step1: any;
@@ -15,10 +16,12 @@ const CheckoutSteps: FC<CheckoutStepsProps> = ({
     step3,
     step4,
 }) => {
+    const { userInfo, dispatch } = useContext(UserContext);
+
     return (
         <Nav className="justify-content-center mb-4">
             <Nav.Item>
-                {step1 ? (
+                {step1 && !userInfo.access_token ? (
                     <LinkContainer to="/login">
                         <Nav.Link>Entrar</Nav.Link>
                     </LinkContainer>
@@ -29,7 +32,22 @@ const CheckoutSteps: FC<CheckoutStepsProps> = ({
             <Nav.Item>
                 {step2 ? (
                     <LinkContainer to="/shipping">
-                        <Nav.Link>Envio</Nav.Link>
+                        <Nav.Link>
+                            {" "}
+                            <span
+                                style={
+                                    step1 && step2 && !step3
+                                        ? {
+                                              color: "#343A40",
+                                              fontSize: "1.05rem",
+                                              fontWeight: "bold",
+                                          }
+                                        : {}
+                                }
+                            >
+                                Envio
+                            </span>
+                        </Nav.Link>
                     </LinkContainer>
                 ) : (
                     <Nav.Link disabled>Envio</Nav.Link>
@@ -38,7 +56,22 @@ const CheckoutSteps: FC<CheckoutStepsProps> = ({
             <Nav.Item>
                 {step3 ? (
                     <LinkContainer to="/payment">
-                        <Nav.Link>Pagamento</Nav.Link>
+                        <Nav.Link>
+                            {" "}
+                            <span
+                                style={
+                                    step1 && step2 && step3 && !step4
+                                        ? {
+                                              color: "#343A40",
+                                              fontSize: "1.05rem",
+                                              fontWeight: "bold",
+                                          }
+                                        : {}
+                                }
+                            >
+                                Pagamento
+                            </span>{" "}
+                        </Nav.Link>
                     </LinkContainer>
                 ) : (
                     <Nav.Link disabled>Pagamento</Nav.Link>
@@ -47,7 +80,22 @@ const CheckoutSteps: FC<CheckoutStepsProps> = ({
             <Nav.Item>
                 {step4 ? (
                     <LinkContainer to="/placeorder">
-                        <Nav.Link>Concluir </Nav.Link>
+                        <Nav.Link>
+                            {" "}
+                            <span
+                                style={
+                                    step1 && step2 && step3 && step4
+                                        ? {
+                                              color: "#343A40",
+                                              fontSize: "1.05rem",
+                                              fontWeight: "bold",
+                                          }
+                                        : {}
+                                }
+                            >
+                                Concluir
+                            </span>{" "}
+                        </Nav.Link>
                     </LinkContainer>
                 ) : (
                     <Nav.Link disabled>Concluir </Nav.Link>

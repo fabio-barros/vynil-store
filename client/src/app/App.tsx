@@ -38,10 +38,7 @@ function App() {
                                     <PaymentMethodContextontextProvider>
                                         <OrderContextProvider>
                                             <Header />
-                                            <Container
-                                                fluid
-                                                className="py-3 main"
-                                            >
+                                            <main className="py-3 main">
                                                 {/* <Container> */}
                                                 <Routes>
                                                     <Route
@@ -106,7 +103,7 @@ function App() {
                                                     />
                                                 </Routes>
                                                 {/* </Container> */}
-                                            </Container>
+                                            </main>
                                         </OrderContextProvider>
                                     </PaymentMethodContextontextProvider>
                                 </ShippingContextProvider>

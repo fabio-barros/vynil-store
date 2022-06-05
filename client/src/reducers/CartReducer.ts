@@ -1,19 +1,19 @@
 import { Record } from "../contexts/ProductsContext";
 
-export interface CartProduct {
-    id: string;
-    artistName: string;
-    albumName: string;
-    releaseDate: number;
-    // producers: Producer[];
-    albumCover: string;
-    // genres: string[];
-    description: string;
-    price: number;
-    qtyInStock: number;
-    rating: number;
-    // reviews: Review[];
-    reviewsQty: number;
+export interface CartProduct extends Record {
+    // id: string;
+    // artistName: string;
+    // albumName: string;
+    // releaseDate: number;
+    // // producers: Producer[];
+    // albumCover: string;
+    // // genres: string[];
+    // description: string;
+    // price: number;
+    // qtyInStock: number;
+    // rating: number;
+    // // reviews: Review[];
+    // reviewsQty: number;
     qty: number;
 }
 

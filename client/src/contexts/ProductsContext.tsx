@@ -35,6 +35,14 @@ export const GET_RECORD_QUERY = gql`
                 comment
                 rating
             }
+            producers {
+                name
+            }
+            reviews {
+                name
+                rating
+                comment
+            }
             reviewsQty
             qtyInStock
             description
@@ -51,15 +59,28 @@ interface Review {
 interface Producer {
     name: string;
 }
-
+export interface RecordInput {
+    artistName: string;
+    albumName: string;
+    releaseDate: number;
+    producers: Producer[];
+    albumCover: string;
+    genres: string[];
+    description: string;
+    price: number;
+    qtyInStock: number;
+    rating: number;
+    reviews: Review[];
+    reviewsQty: number;
+}
 export interface Record {
     id: string;
     artistName: string;
     albumName: string;
     releaseDate: number;
-    // producers: Producer[];
+    producers: Producer[];
     albumCover: string;
-    // genres: string[];
+    genres: string[];
     description: string;
     price: number;
     qtyInStock: number;

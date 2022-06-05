@@ -9,6 +9,7 @@ import {
 
 export interface RegisterUserInput {
     username: string;
+    email: string;
     password: string;
 }
 export const REGISTER_MUTATION = gql`

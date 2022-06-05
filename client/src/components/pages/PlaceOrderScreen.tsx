@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { FC, Fragment, useContext } from "react";
+import { FC, Fragment, useContext, useEffect, useState } from "react";
 import {
     Button,
     Card,
@@ -9,7 +9,7 @@ import {
     ListGroup,
     Row,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
 import {
     CreateOrderInput,
@@ -27,6 +27,8 @@ import { Message } from "../Message";
 interface PlaceOrderScreenProps {}
 
 const PlaceOrderScreen: FC<PlaceOrderScreenProps> = ({}) => {
+    const [labelColor, setLabelColor] = useState("");
+
     const { userInfo, dispatch: userContextDispatch } = useContext(UserContext);
 
     const { cartItems, dispatch: cartContextDispatch } =
@@ -53,9 +55,9 @@ const PlaceOrderScreen: FC<PlaceOrderScreenProps> = ({}) => {
         Number(itemsPrice) + Number(shippingPrice)
     ).toFixed(2);
 
-    const [placeOrder, { data, loading, error }] = useMutation<
-        { order: Order },
-        { input: CreateOrderInput }
+    const [placeOrder, { called, data, loading, error }] = useMutation<
+        { createOrder: Order },
+        { input: Order }
     >(CREATE_ORDER_MUTATION, {
         variables: {
             input: {
@@ -65,7 +67,6 @@ const PlaceOrderScreen: FC<PlaceOrderScreenProps> = ({}) => {
                 city: shippingAddress.city,
                 state: shippingAddress.state,
                 buyerId: userInfo.user.id,
-                // products: cartItems.reduce((c: Order, v) => ),
                 products: cartItems.map((item) => ({
                     qty: item.qty,
                     recordId: item.id,
@@ -80,12 +81,42 @@ const PlaceOrderScreen: FC<PlaceOrderScreenProps> = ({}) => {
         onCompleted(data) {
             orderDispatch({
                 type: OrderActionsKind.SAVE_ORDER,
-                payload: data.order,
+                payload: data.createOrder,
             });
         },
     });
 
-    const placeOrderHandler = () => {};
+    let navigate = useNavigate();
+
+    const changeLabelColor = () => {
+        setLabelColor("green");
+    };
+
+    useEffect(() => {
+        changeLabelColor();
+        if (called && data?.createOrder) {
+            setTimeout(function () {
+                navigate("/order/order.id");
+            }, 1500);
+        }
+    }, [called, data?.createOrder, navigate]);
+
+    const placeOrderHandler = () => {
+        console.log(
+            cartItems.map((item) => ({
+                qty: item.qty,
+                recordId: item.id,
+            }))
+        );
+        userInfo.access_token &&
+            cartItems &&
+            shippingAddress &&
+            paymentMethod.method &&
+            itemsPrice &&
+            shippingPrice &&
+            totalPrice &&
+            placeOrder();
+    };
 
     return (
         <Container>
@@ -172,7 +203,7 @@ const PlaceOrderScreen: FC<PlaceOrderScreenProps> = ({}) => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total</Col>
-                                    <Col>R${total}</Col>
+                                    <Col>R${totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
@@ -184,6 +215,13 @@ const PlaceOrderScreen: FC<PlaceOrderScreenProps> = ({}) => {
                                 >
                                     Concluir Pedido
                                 </Button>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                {error && (
+                                    <Message variant="danger">
+                                        {error.message}
+                                    </Message>
+                                )}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>

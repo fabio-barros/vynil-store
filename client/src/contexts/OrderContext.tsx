@@ -6,13 +6,14 @@ import {
     orderInitialState,
     orderReducer,
 } from "../reducers/OrderReducer";
+import { Record, RecordInput } from "./ProductsContext";
 export type CreateOrderInput = Order;
 
 export const CREATE_ORDER_MUTATION = gql`
     mutation createOrder($input: CreateOrderInput!) {
         createOrder(input: $input) {
             id
-            buyerID
+            buyerId
             address
             houseNumber
             postalCode
@@ -25,8 +26,8 @@ export const CREATE_ORDER_MUTATION = gql`
             itemsPrice
             shippingPrice
             totalPrice
-            status
             paymentMethod
+            status
         }
     }
 `;
@@ -43,7 +44,7 @@ export interface Order {
     city: string;
     postalCode: string;
     state: string;
-    products: OrderProducts[];
+    products?: OrderProducts[];
     itemsPrice: string;
     shippingPrice: string;
     totalPrice: string;

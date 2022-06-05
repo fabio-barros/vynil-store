@@ -18,6 +18,7 @@ import {
     Button,
     Card,
     Col,
+    Container,
     Form,
     Image,
     ListGroup,
@@ -93,9 +94,9 @@ const PaymentScreen: FC<PaymentScreenProps> = ({}) => {
         navigate("/placeorder");
     };
     return (
-        <Fragment>
+        <Container>
+            <CheckoutSteps step1 step2 step3 />
             <FormContainer>
-                <CheckoutSteps step1 step2 step3 />
                 <h1>Pagamento</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Group>
@@ -119,7 +120,7 @@ const PaymentScreen: FC<PaymentScreenProps> = ({}) => {
                     </Button>
                 </Form>
             </FormContainer>
-        </Fragment>
+        </Container>
     );
 };
 export default PaymentScreen;

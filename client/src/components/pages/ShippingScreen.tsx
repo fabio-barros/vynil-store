@@ -10,6 +10,7 @@ import {
     Button,
     Card,
     Col,
+    Container,
     Form,
     Image,
     ListGroup,
@@ -22,6 +23,7 @@ import {
     RegisteredUser,
 } from "../../contexts/RegisterContext";
 import { ShippingContext } from "../../contexts/ShippingContext";
+import { UserContext } from "../../contexts/UserContext";
 
 import { ShippingActionsKind } from "../../reducers/ShippingReducer";
 
@@ -36,6 +38,8 @@ interface RecordVars {
 }
 
 const ShippingScreen: FC<ShippingScreenProps> = ({}) => {
+    const { userInfo, dispatch } = useContext(UserContext);
+
     const { shippingAddress, shippingAddressDispatch } =
         useContext(ShippingContext);
     const [address, setAddress] = useState(shippingAddress.address);
@@ -47,6 +51,11 @@ const ShippingScreen: FC<ShippingScreenProps> = ({}) => {
     const { user, registerDispatch } = useContext(RegisterContext);
 
     let navigate = useNavigate();
+    useEffect(() => {
+        if (userInfo.access_token === undefined) {
+            navigate("/login");
+        }
+    }, [navigate, userInfo.access_token]);
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -57,9 +66,9 @@ const ShippingScreen: FC<ShippingScreenProps> = ({}) => {
         navigate("/payment");
     };
     return (
-        <Fragment>
+        <Container>
+            <CheckoutSteps step1 step2 />
             <FormContainer>
-                <CheckoutSteps step1 step2 />
                 <h1>Entrega</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Label>Endereço</Form.Label>
@@ -117,7 +126,7 @@ const ShippingScreen: FC<ShippingScreenProps> = ({}) => {
                     </Button>
                 </Form>
             </FormContainer>
-        </Fragment>
+        </Container>
     );
 };
 export default ShippingScreen;
